@@ -12,8 +12,8 @@ using Tabu.DAL;
 namespace Tabu.Migrations
 {
     [DbContext(typeof(TabuDbContext))]
-    [Migration("20241219060850_CreatedWordsAndBannedWordsTables")]
-    partial class CreatedWordsAndBannedWordsTables
+    [Migration("20241220064135_NullableValuesInGames")]
+    partial class NullableValuesInGames
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -49,11 +49,9 @@ namespace Tabu.Migrations
 
             modelBuilder.Entity("Tabu.Entities.Game", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("BannedWordCount")
                         .HasColumnType("int");
@@ -67,19 +65,19 @@ namespace Tabu.Migrations
                         .HasColumnType("nvarchar(2)")
                         .HasDefaultValue("az");
 
-                    b.Property<int>("Score")
+                    b.Property<int?>("Score")
                         .HasColumnType("int");
 
                     b.Property<int>("SkipCount")
                         .HasColumnType("int");
 
-                    b.Property<int>("SuccessAnswer")
+                    b.Property<int?>("SuccessAnswer")
                         .HasColumnType("int");
 
                     b.Property<TimeSpan>("Time")
                         .HasColumnType("time");
 
-                    b.Property<int>("WrongAnswer")
+                    b.Property<int?>("WrongAnswer")
                         .HasColumnType("int");
 
                     b.HasKey("Id");

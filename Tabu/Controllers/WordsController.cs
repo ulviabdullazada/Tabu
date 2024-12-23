@@ -17,6 +17,16 @@ namespace Tabu.Controllers
             return Ok();
         }
 
+        [HttpPost("AddRange")]
+        public async Task<IActionResult> PostMany(IEnumerable<WordCreateDto> dto)
+        {
+            foreach (var item in dto)
+            {
+                await _service.CreateAsync(item);
+            }
+            return Ok();
+        }
+
         [HttpGet]
         public async Task<IActionResult> Get()
         {

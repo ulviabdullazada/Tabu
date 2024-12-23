@@ -1,8 +1,15 @@
 
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using SwaggerThemes;
 using Tabu.DAL;
+using Tabu.Enums;
+using Tabu.Exceptions;
+using Tabu.ExternalServices.Abstracts;
+using Tabu.ExternalServices.Implements;
 using Tabu.Services.Abstracts;
 using Tabu.Services.Implements;
 
@@ -17,6 +24,9 @@ namespace Tabu
             builder.Services.AddControllers();
             builder.Services.AddFluentValidationAutoValidation();
             builder.Services.AddValidatorsFromAssemblyContaining<Program>();
+
+            builder.Services.AddCacheService(builder.Configuration, CacheTypes.Redis);
+
             builder.Services.AddAutoMapper(typeof(Program));
 
             builder.Services.AddServices();
@@ -35,11 +45,10 @@ namespace Tabu
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
-                app.UseSwaggerUI(c =>
-                {
-                    c.InjectStylesheet("https://raw.githubusercontent.com/Amoenus/SwaggerDark/refs/heads/master/SwaggerDark.user.css");
-                });
+                app.UseSwaggerUI(Theme.UniversalDark);
             }
+
+            app.UseTabuExceptionHandler();
 
             app.UseHttpsRedirection();
 

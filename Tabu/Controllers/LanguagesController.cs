@@ -1,9 +1,13 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using StackExchange.Redis;
 using Tabu.DAL;
 using Tabu.DTOs.Languages;
+using Tabu.Entities;
 using Tabu.Exceptions;
+using Tabu.ExternalServices.Abstracts;
+using Tabu.ExternalServices.Implements;
 using Tabu.Services.Abstracts;
 
 namespace Tabu.Controllers
@@ -22,60 +26,16 @@ namespace Tabu.Controllers
         [HttpPost]
         public async Task<IActionResult> Post(LanguageCreateDto dto)
         {
-            try
-            {
-                await _service.CreateAsync(dto);
-                return Created();
-            }
-            catch (Exception ex)
-            {
-                if (ex is IBaseException ibe)
-                {
-                    return StatusCode(ibe.StatusCode, new
-                    {
-                        StatusCode = ibe.StatusCode,
-                        Message = ibe.ErrorMessage
-                    });
-                }
-                else
-                {
-                    return BadRequest(new
-                    {
-                        StatusCode = StatusCodes.Status400BadRequest,
-                        Message = ex.Message
-                    });
-                }
-            }
+            await _service.CreateAsync(dto);
+            return Created();
         }
 
         [HttpPut]
         [Route("{code}")]
         public async Task<IActionResult> Update(string code, LanguageUpdateDto dto)
         {
-            try
-            {
-                await _service.UpdateAsync(code, dto);
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                if (ex is IBaseException ibe)
-                {
-                    return StatusCode(ibe.StatusCode, new
-                    {
-                        StatusCode = ibe.StatusCode,
-                        Message = ibe.ErrorMessage
-                    });
-                }
-                else
-                {
-                    return BadRequest(new
-                    {
-                        StatusCode = StatusCodes.Status400BadRequest,
-                        Message = ex.Message
-                    });
-                }
-            }
+            await _service.UpdateAsync(code, dto);
+            return Ok();
         }
 
         [HttpDelete]
