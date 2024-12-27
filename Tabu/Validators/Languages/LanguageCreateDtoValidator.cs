@@ -1,34 +1,41 @@
 ﻿using FluentValidation;
 using Tabu.DTOs.Languages;
+using Tabu.ExternalServices.Abstracts;
+using Tabu.Helpers;
 
 namespace Tabu.Validators.Languages
 {
     public class LanguageCreateDtoValidator : AbstractValidator<LanguageCreateDto>
     {
-        public LanguageCreateDtoValidator()
+        readonly IErrorService _service;
+        public LanguageCreateDtoValidator(IErrorService service)
         {
+            _service = service;
             RuleFor(x => x.Code)
                 .NotNull()
+                    .WithMessage(_service.GetMessage(ErrorCodes.Null))
                 .NotEmpty()
-                    .WithMessage("Code bosh ola bilmez")
+                    .WithMessage(_service.GetMessage(ErrorCodes.Empty))
                 .MaximumLength(2)
-                    .WithMessage("Code uzunluğu 2-dən artıq ola bilməz");
+                    .WithMessage(_service.GetMessage(ErrorCodes.LessThan, 2));
 
             RuleFor(x => x.Name)
                 .NotNull()
+                    .WithMessage(_service.GetMessage(ErrorCodes.Null))
                 .NotEmpty()
-                    .WithMessage("Name bosh ola bilmez")
+                    .WithMessage(_service.GetMessage(ErrorCodes.Empty))
                 .MaximumLength(64)
-                    .WithMessage("Name uzunluğu 64-dən artıq ola bilməz");
+                    .WithMessage(_service.GetMessage(ErrorCodes.LessThan, 64));
 
             RuleFor(x => x.IconUrl)
                 .NotNull()
+                    .WithMessage(_service.GetMessage(ErrorCodes.Null))
                 .NotEmpty()
-                    .WithMessage("Icon bosh ola bilmez")
+                    .WithMessage(_service.GetMessage(ErrorCodes.Empty))
                 .Matches("^http(s)?://([\\w-]+.)+[\\w-]+(/[\\w- ./?%&=])?$")
-                    .WithMessage("Icon deyeri link olmalidir")
+                    .WithMessage(_service.GetMessage(ErrorCodes.Format))
                 .MaximumLength(128)
-                    .WithMessage("Icon uzunluğu 128-dən artıq ola bilməz");
+                    .WithMessage(_service.GetMessage(ErrorCodes.LessThan, 128));
 
         }
     }

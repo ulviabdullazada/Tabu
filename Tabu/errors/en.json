@@ -1,0 +1,12 @@
+{
+  "001": "{0} not found",
+  "002": "{0} already exist",
+  "003": "Invalid banned words count",
+  "004": "Cannot be empty",
+  "005": "Cannot be null",
+  "006": "Fields length must be less than {0}",
+  "007": "Format is invalid",
+  "fields": {
+    "Language": "Language"
+  }
+}

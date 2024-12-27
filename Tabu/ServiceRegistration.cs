@@ -15,6 +15,7 @@ namespace Tabu
             services.AddScoped<ILanguageService, LanguageService>();
             services.AddScoped<IGameService, GameService>();
             services.AddScoped<IWordService, WordService>();
+            services.AddScoped<IErrorService, ErrorService>();
             return services;
         }
         public static IServiceCollection AddCacheService(this IServiceCollection services, IConfiguration _conf, CacheTypes type = CacheTypes.Redis)

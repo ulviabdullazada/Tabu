@@ -1,4 +1,7 @@
-﻿namespace Tabu.Exceptions.Language
+﻿using Tabu.ExternalServices.Abstracts;
+using Tabu.Helpers;
+
+namespace Tabu.Exceptions.Language
 {
     public class LanguageNotFoundException : Exception, IBaseException
     {
@@ -12,6 +15,10 @@
         public LanguageNotFoundException(string message) : base(message)
         {
             ErrorMessage = message;
+        }
+        public LanguageNotFoundException(IErrorService _service)
+        {
+            ErrorMessage = _service.GetMessage(ErrorCodes.NotFound, _service.GetField("Language"));
         }
     }
 }

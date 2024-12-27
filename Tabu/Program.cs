@@ -10,6 +10,7 @@ using Tabu.Enums;
 using Tabu.Exceptions;
 using Tabu.ExternalServices.Abstracts;
 using Tabu.ExternalServices.Implements;
+using Tabu.OperationFilters;
 using Tabu.Services.Abstracts;
 using Tabu.Services.Implements;
 
@@ -31,13 +32,15 @@ namespace Tabu
 
             builder.Services.AddServices();
 
+            builder.Services.AddHttpContextAccessor();
+
             builder.Services.AddDbContext<TabuDbContext>(opt =>
             {
                 opt.UseSqlServer(builder.Configuration.GetConnectionString("MSSql"));
             });
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+            builder.Services.AddSwaggerGen(x=> x.OperationFilter<AddRequiredHeaderParameter>());
 
             var app = builder.Build();
 

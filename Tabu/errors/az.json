@@ -1,0 +1,12 @@
+﻿{
+  "001": "{0} tapılmadı",
+  "002": "{0} artıq mövcuddur",
+  "003": "Qadağan olunmuş söz sayı yalnışdır.",
+  "004": "Boş ola bilməz",
+  "005": "Null ola bilməz",
+  "006": "Uzunluğu ən çox {0} olmalıdır",
+  "007": "Format düzgün deyil",
+  "fields": {
+    "Language": "Dil"
+  }
+}

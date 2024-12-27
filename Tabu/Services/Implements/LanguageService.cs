@@ -6,16 +6,17 @@ using Tabu.DAL;
 using Tabu.DTOs.Languages;
 using Tabu.Entities;
 using Tabu.Exceptions.Language;
+using Tabu.ExternalServices.Abstracts;
 using Tabu.Services.Abstracts;
 
 namespace Tabu.Services.Implements
 {
-    public class LanguageService(TabuDbContext _context, IMapper _mapper) : ILanguageService
+    public class LanguageService(TabuDbContext _context, IMapper _mapper, IErrorService _errors) : ILanguageService
     {
         public async Task CreateAsync(LanguageCreateDto dto)
         {
             if (await _context.Languages.AnyAsync(x => x.Code == dto.Code))
-                throw new LanguageExistException();
+                throw new LanguageExistException(_errors);
             var lang = _mapper.Map<Language>(dto);
             await _context.Languages.AddAsync(lang);
             await _context.SaveChangesAsync();
@@ -40,7 +41,7 @@ namespace Tabu.Services.Implements
         public async Task UpdateAsync(string code, LanguageUpdateDto dto)
         {
             var data = await _getByCode(code);
-            if (data == null) throw new LanguageNotFoundException();
+            if (data == null) throw new LanguageNotFoundException(_errors);
             _mapper.Map(dto,data);
             await _context.SaveChangesAsync();
         }

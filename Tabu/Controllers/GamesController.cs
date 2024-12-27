@@ -7,9 +7,14 @@ namespace Tabu.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class GamesController(IGameService _service) : ControllerBase
+public class GamesController(IGameService _service, IErrorService _error) : ControllerBase
 {
 
+    [HttpGet("[action]")]
+    public async Task<IActionResult> Get()
+    {
+        return Ok(_error.GetField("Language"));
+    }
 	[HttpPost]
 	public async Task<IActionResult> Create(GameCreateDto dto)
 	{

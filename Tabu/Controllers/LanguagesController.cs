@@ -24,7 +24,7 @@ namespace Tabu.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(LanguageCreateDto dto)
+        public async Task<IActionResult> Post( LanguageCreateDto dto)
         {
             await _service.CreateAsync(dto);
             return Created();
